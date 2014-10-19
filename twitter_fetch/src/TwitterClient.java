@@ -22,6 +22,7 @@ public class TwitterClient {
 	private String ACCESS_TOKEN;
 	private String ACCESS_TOKEN_SECRET;
 	
+	// Constructor
 	public TwitterClient(String KEY, String KEY_SECRET, String TOKEN, String TOKEN_SECRET){
 		CONSUMER_KEY = KEY;
 		CONSUMER_KEY_SECRET = KEY_SECRET;
@@ -29,6 +30,7 @@ public class TwitterClient {
 		ACCESS_TOKEN_SECRET = TOKEN_SECRET;
 	}
 	
+	// Search query
 	public void startSeachAPI(String qstr) throws TwitterException, IOException{
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
@@ -54,6 +56,7 @@ public class TwitterClient {
 		    
 	}
 	
+	// Get user's timeline 
 	public void getUserTimeLine(String user) throws TwitterException{
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true)
@@ -75,8 +78,8 @@ public class TwitterClient {
             }
         } 
 	
-	
-	public void sendTweet(String tweetContent, String handle) throws TwitterException{
+	// Post a Tweet
+	public void postTweet(String tweetContent, String handle) throws TwitterException{
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)
 		  .setOAuthConsumerKey(CONSUMER_KEY)
