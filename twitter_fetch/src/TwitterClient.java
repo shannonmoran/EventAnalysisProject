@@ -1,5 +1,5 @@
-import java.util.List;
-import java.io.IOException;
+import java.util.List; 
+import java.io.*;
 
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -45,15 +45,62 @@ public class TwitterClient {
 	        System.out.println("Token Type  : " + token.getTokenType());
 	        System.out.println("Access Token: " + token.getAccessToken());
 	    }
+	    
+	    // Create a file to store tweets
+		File csv = new File("C:\\Users\\Bob Naessens\\Desktop\\" + "tweets.csv");
+		
+		// Deletes file if already exists
+		if(csv.exists()) {
+			csv.delete();
+		}
+		
+		csv.createNewFile();
+		
+		FileWriter fw = new FileWriter(csv);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		// Write the headers
+		bw.write("User Screen Name,");
+		bw.write("Tweet,");
+		bw.write("Time Created,");
+		bw.newLine();
+		
+		// Create Query and set variables
 	    Query query = new Query(qstr);
-		query.setCount(1000);
-		//long id = (long) 422204137108168705;
-		//result.getSinceId();
+		query.setCount(100); // sets the number of tweets to return per page, up to a max of 100
+		long id = 532930714627768320L;// We will find all tweets until this I.D is reached.
+		query.setSinceId(id);
 		QueryResult result = twitter.search(query);
-	    for (Status status : result.getTweets()) {
-	        System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-	    }
-		    
+		
+		outerloop:
+		while(result.hasNext()) {
+			// For each Tweet create a new line in file with content of tweet.
+		    for (Status status : result.getTweets()) {
+		        System.out.println(" @" + status.getUser().getScreenName() + ":" + status.getText() + ":" + status.getCreatedAt() + " " + status.getId());
+		        String screenName = status.getUser().getScreenName().replaceAll("\"", "\\\"");
+		        screenName = screenName.replaceAll("\n", ". ");
+		        String tweetText = status.getText().replaceAll("\"", "\\\"");
+		        tweetText = tweetText.replaceAll("\n", ". ");
+				bw.write("\"" + screenName + "\"" + ",");
+				bw.write("\"" + tweetText + "\"" + ",");
+				bw.write(status.getCreatedAt().toString() + ",");
+				bw.newLine();
+				 
+				// Break out of loop if id of tweet is less than the range you want.
+			    if(status.getId() < id) {
+			    	break outerloop;
+			    }
+			    
+		    }
+
+		    query = result.nextQuery();
+		    result = twitter.search(query);
+		}   
+
+		// Close Resources
+        bw.flush();
+        bw.close();
+        fw.close();
 	}
 	
 	// Get user's timeline 
