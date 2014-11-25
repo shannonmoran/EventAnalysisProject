@@ -49,7 +49,7 @@ public class mainClass {
 		// -----------------------------------Test functionality------------------------------------
 		//------------------------------------------------------------------------------------------
 		
-		search("#CometLanding"); // NB: case sensitive
+		search("#SCOIRL"); // NB: case sensitive
 		
 		//userTimeline("shannmran"); // only recent 200
 		

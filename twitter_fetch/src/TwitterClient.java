@@ -47,7 +47,7 @@ public class TwitterClient {
 	    }
 	    
 	    // Create a file to store tweets
-		File csv = new File("C:\\Users\\Bob Naessens\\Desktop\\" + "tweets.csv");
+		File csv = new File("C:\\Users\\Bob Naessens\\Desktop\\" + "SCOIRL.csv");
 		
 		// Deletes file if already exists
 		if(csv.exists()) {
@@ -68,7 +68,14 @@ public class TwitterClient {
 		// Create Query and set variables
 	    Query query = new Query(qstr);
 		query.setCount(100); // sets the number of tweets to return per page, up to a max of 100
-		long id = 532930714627768320L;// We will find all tweets until this I.D is reached.
+		long id = 533345391362969600L;// We will find all tweets until this I.D is reached. 
+		// 533333542491525120L => 7:00 14/11/2014 #SCOIRL
+		// 533344008043786241L => 7:41 14/11/2014 #SCOIRL
+		// 533345391362969600L => kickoff 14/11/2014 #SCOIRL
+		// 533357263311097857L => half time 14/11/2014 #SCOIRL
+		// 533360966126542848L => start of 2nd half time 14/11/2014 #SCOIRL
+		// 533373399968796672L => full time 14/11/2014 #SCOIRL
+		
 		query.setSinceId(id);
 		QueryResult result = twitter.search(query);
 		
@@ -79,10 +86,12 @@ public class TwitterClient {
 		        System.out.println(" @" + status.getUser().getScreenName() + ":" + status.getText() + ":" + status.getCreatedAt() + " " + status.getId());
 		        String screenName = status.getUser().getScreenName().replaceAll("\"", "\\\"");
 		        screenName = screenName.replaceAll("\n", ". ");
+		        screenName = screenName.replaceAll(",", " ");
 		        String tweetText = status.getText().replaceAll("\"", "\\\"");
 		        tweetText = tweetText.replaceAll("\n", ". ");
-				bw.write("\"" + screenName + "\"" + ",");
-				bw.write("\"" + tweetText + "\"" + ",");
+		        tweetText = tweetText.replaceAll(",", " ");
+				bw.write(screenName + ",");
+				bw.write(tweetText + ",");
 				bw.write(status.getCreatedAt().toString() + ",");
 				bw.newLine();
 				 
