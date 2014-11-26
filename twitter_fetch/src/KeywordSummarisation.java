@@ -8,19 +8,32 @@ public class KeywordSummarisation {
 		TweetAggregation.main(arguments);
 		
 		ArrayList<AggregatedTweets> at = TweetAggregation.getAggregatedTweetsObjects();
-		System.out.println("\nNumber of minutes analysed: "+at.size());
+		int totalCount = TweetAggregation.getTotalCount();
+		int averageCount = TweetAggregation.getAverageCount();
 		
-		// Loop through the aggregated tweet objects and determine if they are above the stated threshold: 150 at the moment
+		// Use average count to create threshold to check for spikes
+		double threshold = averageCount*1.5;
+		System.out.println("\nSpike threshold: " +threshold);
+		
+		// Loop through the aggregated Tweet objects and determine if they are above the stated threshold: 150 at the moment
+		int spikeCount = 0;
 		for(int i = 0; i < at.size(); i++) {
-			if (at.get(i).getCount() > 150) {
+			
+			if (at.get(i).getCount() > threshold) {
 				// Pass spikes into method for analysis
 				analyseSpike(at.get(i));
+				spikeCount++;
 			}
 		}
+		
+		System.out.println("Total Spikes: " + spikeCount);
 	}
 	
 	// Analyse spike here
 	public static void analyseSpike(AggregatedTweets at) {
+		System.out.println("SPIKE - " + at.getCount() + " @ " + at.getDate());
+		
+		// Analyse each tweet, word by word
 		
 	}
 }

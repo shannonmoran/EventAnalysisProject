@@ -77,9 +77,11 @@ public class TweetAggregation {
 			System.out.println("Date: " + AggregatedTweetsObjects.get(i).getDate().toString()  + ". Number of Tweets this minute: " + AggregatedTweetsObjects.get(i).getTweets().size()+ ". Count: " + AggregatedTweetsObjects.get(i).getCount());
 			count += AggregatedTweetsObjects.get(i).getCount();
 		}
+		totalCount = count;
 		System.out.println("Total Count: " + count);
 		// Now write the aggregated tweets to a separate csv file
 		
+		averageCount = count/AggregatedTweetsObjects.size();
 		System.out.println("Average Count: " + count/AggregatedTweetsObjects.size());
 		
 	}
