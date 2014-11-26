@@ -1,26 +1,33 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AggregatedTweets {
 	private Date date;
 	private int count;
+	private ArrayList<Tweet> tweets;
 	
 	// Constructors
-	public AggregatedTweets(Date d, int c) {
+	public AggregatedTweets(Date d, int c, ArrayList t) {
 		date = d;
 		count = c;
+		tweets = t;
 	}
 
 	public AggregatedTweets() {
-		count = 1;
+		count = 0;
 	}
 	
-	//Setters and Getters
+	// Getters and Setters
 	public void setDate(Date d) {
 		date = d;
 	}
 	
 	public void setCount(int c) {
 		count = c;
+	}
+	
+	public void setTweets(ArrayList t) {
+		tweets = t;
 	}
 	
 	public Date getDate() {
@@ -31,4 +38,7 @@ public class AggregatedTweets {
 		return count;
 	}
 	
+	public ArrayList getTweets() {
+		return tweets;
+	}
 }
