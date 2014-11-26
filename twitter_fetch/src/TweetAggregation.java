@@ -67,5 +67,7 @@ public class TweetAggregation {
 		System.out.println("Total Count: " + count);
 		// Now write the aggregated tweets to a separate csv file
 		
+		System.out.println("Average Count: " + count/AggregatedTweetsObjects.size());
+		
 	}
 }
