@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -70,8 +71,9 @@ public class TweetPreprocessing {
 								break;
 							}
 						}
-						if (!stopWord)
+						if (!stopWord) {
 							formattedTweet += " "+tweetWord[i];
+						}
 					}
 					
 					// Write Formatted tweet to file
