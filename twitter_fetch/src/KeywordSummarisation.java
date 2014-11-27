@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +13,7 @@ import java.util.TreeMap;
 
 public class KeywordSummarisation {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		TweetAggregation.main(args);
 		
@@ -37,7 +40,7 @@ public class KeywordSummarisation {
 	}
 	
 	// Analyse spike here
-	public static void analyseSpike(AggregatedTweets at) {
+	public static void analyseSpike(AggregatedTweets at) throws IOException {
 		System.out.println("SPIKE - @ " + at.getDate());
 		
 		// Analyse each tweet, word by word
@@ -78,23 +81,53 @@ public class KeywordSummarisation {
             }
         });
 		
-		System.out.println("  Sorted: "+entries+"\n");
+		System.out.println("  Sorted: "+entries);
+
+		List<Map.Entry<String,Integer>> topEntries = new LinkedList<Map.Entry<String,Integer>>();
 		
-		// Sort values
+		// Get top 6 words to help summarise event.
+		for(int i = 1; i < 7; i++) {
+			topEntries.add(entries.get(i));
+		}
 		
-		/*for (int k=0; k<values.size(); k++) {
-			// Check if this value is higher than the highest value so far
-			if (values.get(k)>highestOccurring.indexOf(highestPos)) {
-				
-				// Add to highestOccurring ArrayList
-				highestOccurring.add(highestOccurring.indexOf(highestPos), values.get(k));
-				
-				// update highest position
-				highestPos = values.get(k);
-			} else {
-				
+		System.out.println("Top 6 Entries: "+topEntries);
+		
+		// Load key word file
+		ArrayList<String> keyWords = loadKeywordWordFile("soccer_key_phrases.txt");
+		
+		List<Map.Entry<String,Integer>> summaryWords = new LinkedList<Map.Entry<String,Integer>>();
+		
+		// Loop to compare top 6 words with keywords.
+		for(int i = 0; i < topEntries.size(); i++) {
+
+			// Check if the top word in question is a keyword
+			if(keyWords.contains(topEntries.get(i).getKey())) {
+				summaryWords.add(topEntries.get(i));
 			}
-		}*/
+		}
+		
+		System.out.println("Possible Summary words: "+summaryWords+"\n");
+	}
+	
+	private static ArrayList<String> loadKeywordWordFile(String filename) throws IOException {
+		// Load Stop word removal file
+		BufferedReader br1 = new BufferedReader(new FileReader(filename));
+		
+		String line = "";
+		// Read header line
+		line = br1.readLine();
+		
+		// In memory representation of stop word file
+		ArrayList<String> keyWords = new ArrayList<String>();
+		
+		while ((line = br1.readLine()) != null) {
+	        // Add line as the word is the only item in the line
+			keyWords.add(line.toLowerCase());
+		}
+		// Close reader
+		br1.close();
+		
+		return keyWords;
 	}
 }
 
