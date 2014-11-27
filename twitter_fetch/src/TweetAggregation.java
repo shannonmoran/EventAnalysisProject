@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class TweetAggregation {
 	
-	public static ArrayList<AggregatedTweets> AggregatedTweetsObjects;
+	public static ArrayList<AggregatedTweets> aggregatedTweetsObjects;
 	public static int totalCount;
 	public static int averageCount;
 	
@@ -43,7 +43,7 @@ public class TweetAggregation {
 
 		// Create an arraylist of aggregated tweet objects. These objects hold the datetime for each minute and the count of occurences of that minute.
 		AggregatedTweets at = new AggregatedTweets();
-		AggregatedTweetsObjects = new ArrayList<AggregatedTweets>();
+		aggregatedTweetsObjects = new ArrayList<AggregatedTweets>();
 		
 		// List to store all tweets for a given minute
 		ArrayList<Tweet> tweetArray = new ArrayList<Tweet>();
@@ -64,7 +64,7 @@ public class TweetAggregation {
 				at.setDate(lastTime);
 				at.setTweets(tweetArray);
 				at.setCount(at.getCount()+1);
-				AggregatedTweetsObjects.add(at);
+				aggregatedTweetsObjects.add(at);
 				lastTime = roundedTime;
 				at = new AggregatedTweets();
 				tweetArray = new ArrayList<Tweet>();
@@ -73,21 +73,21 @@ public class TweetAggregation {
 		
 		// Print results to console. Used mainly for testing.
 		int count = 0;
-		for(int i = 0; i < AggregatedTweetsObjects.size(); i++) {
-			System.out.println("Date: " + AggregatedTweetsObjects.get(i).getDate().toString()  + ". Number of Tweets this minute: " + AggregatedTweetsObjects.get(i).getTweets().size()+ ". Count: " + AggregatedTweetsObjects.get(i).getCount());
-			count += AggregatedTweetsObjects.get(i).getCount();
+		for(int i = 0; i < aggregatedTweetsObjects.size(); i++) {
+			System.out.println("Date: " + aggregatedTweetsObjects.get(i).getDate().toString()  + ". Number of Tweets this minute: " + aggregatedTweetsObjects.get(i).getTweets().size()+ ". Count: " + aggregatedTweetsObjects.get(i).getCount());
+			count += aggregatedTweetsObjects.get(i).getCount();
 		}
 		totalCount = count;
 		System.out.println("Total Count: " + count);
 		// Now write the aggregated tweets to a separate csv file
 		
-		averageCount = count/AggregatedTweetsObjects.size();
-		System.out.println("Average Count: " + count/AggregatedTweetsObjects.size());
+		averageCount = count/aggregatedTweetsObjects.size();
+		System.out.println("Average Count: " + count/aggregatedTweetsObjects.size());
 		
 	}
 	
 	public static ArrayList<AggregatedTweets> getAggregatedTweetsObjects() {
-		return AggregatedTweetsObjects;
+		return aggregatedTweetsObjects;
 	}
 	
 	public static int getTotalCount() {

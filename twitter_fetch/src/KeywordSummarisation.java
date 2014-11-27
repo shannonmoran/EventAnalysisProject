@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KeywordSummarisation {
 	
@@ -35,5 +37,55 @@ public class KeywordSummarisation {
 		
 		// Analyse each tweet, word by word
 		
+		// Count term frequencies per spike
+		Map<String, Integer> termFrequency = new HashMap<String, Integer>();
+		
+		// Analyse each Tweet
+		ArrayList<Tweet> agTweets = at.getTweets();
+		for (int i=0; i<agTweets.size(); i++) {
+			String tweet = agTweets.get(i).getText();
+			
+			// Split tweet into words
+			String[] tweetWords = tweet.split(" ");
+			
+			for (int k=0; k<tweetWords.length; k++) 
+				System.out.println(tweetWords[k]);
+			
+			// For each word count frequency
+			for (int j=0; j<tweetWords.length; j++) {
+//				if (i>0)
+//					System.out.println("tweetWords[i-1]" +tweetWords[i-1]);
+				
+				// Count word frequency, adding new words to map
+				Integer occurrences = termFrequency.get(tweetWords[i]);
+		        if (occurrences == null) {
+		        	termFrequency.put(tweetWords[i], 1);
+		        } else {
+		        	termFrequency.put(tweetWords[i], occurrences.intValue() + 1);
+		        }
+			}
+		}
+		
+		System.out.println("\n"+termFrequency);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
