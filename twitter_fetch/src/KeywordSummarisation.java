@@ -6,8 +6,7 @@ public class KeywordSummarisation {
 	
 	public static void main(String[] args) {
 		
-		String [] arguments = {"SCOIRL1.csv"};
-		TweetAggregation.main(arguments);
+		TweetAggregation.main(args);
 		
 		ArrayList<AggregatedTweets> at = TweetAggregation.getAggregatedTweetsObjects();
 		int totalCount = TweetAggregation.getTotalCount();
