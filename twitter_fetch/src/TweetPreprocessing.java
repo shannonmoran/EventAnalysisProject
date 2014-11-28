@@ -85,6 +85,16 @@ public class TweetPreprocessing {
 					// If so it is removed
 					String formattedTweet = "";
 					for (int i =0; i < tweetWord.length; i++) {
+						
+						// Remove apostrophe and letters that follow it, e.g. toy's will become toy
+						// Allows for instances where more than one letter follows an apostrophe
+						if (tweetWord[i].contains("'")) {
+							for (int k=0; k<tweetWord[i].length(); k++) {
+								if (tweetWord[i].charAt(k) == '\'')
+									tweetWord[i] = tweetWord[i].substring(0, k);
+							}
+						}
+						
 						// 
 						boolean stopWord = false;	
 						for (String s : stopWords) {

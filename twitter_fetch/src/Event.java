@@ -4,20 +4,30 @@ import java.util.Date;
 
 public class Event {
 	private String name;
+	private String homeTeam;
+	private String awayTeam;
 	private String headline;
 	private Date date;
 	private ArrayList<Moment> moments;
 	private String overallSentiment;
 	
 	// Constructors
-	public Event(String n, String h, Date d, ArrayList m, String s) {
+	public Event(String n, String h, Date d, ArrayList m, String s, String ht, String at) {
 		setName(n);
 		setHeadline(h);
 		setDate(d);
 		setMoments(m);
 		setOverallSentiment(s);
+		setHomeTeam(ht);
+		setAwayTeam(at);
 	}
 
+	public Event(String n, String ht, String at) {
+		setName(n);
+		setHomeTeam(ht);
+		setAwayTeam(at);
+	}
+	
 	// Getters and Setters
 	public String getName() {
 		return name;
@@ -58,8 +68,24 @@ public class Event {
 	public void setOverallSentiment(String overallSentiment) {
 		this.overallSentiment = overallSentiment;
 	}
+
+	public String getHomeTeam() {
+		return homeTeam;
+	}
+
+	public void setHomeTeam(String homeTeam) {
+		this.homeTeam = homeTeam;
+	}
+
+	public String getAwayTeam() {
+		return awayTeam;
+	}
+
+	public void setAwayTeam(String awayTeam) {
+		this.awayTeam = awayTeam;
+	}
 	
-	// Modified toString method to summarise event
+	//TODO Modified toString method to summarise event
 	public String toString() {
 		return "Change this toString";
 	}

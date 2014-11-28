@@ -16,11 +16,7 @@ public class EventSentiment {
 	}
 	
 	// Analyse spike here
-	public void analyseSentiment(AggregatedTweets at) throws IOException {
-		System.out.println("SPIKE - " + at.getCount() + " @ " + at.getDate());
-		
-		// Analyse each tweet, word by word
-
+	public void analyseSentiment(AggregatedTweets at) throws IOException {	
 		// Load positive word file
 		ArrayList<String> positiveWords = loadSentimentWordFile("positive-words.txt");
 		
@@ -51,7 +47,6 @@ public class EventSentiment {
 			
 		}
 		
-		System.out.println("Overall sentiment of Minute: " + overallMinuteSentiment);
 		sentiment = overallMinuteSentiment;
 	}
 	

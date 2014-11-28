@@ -1,3 +1,5 @@
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List; 
 import java.io.*;
 
@@ -47,7 +49,7 @@ public class TwitterClient {
 	    }
 	    
 	    // Create a file to store tweets
-		File csv = new File("C:\\Users\\Bob Naessens\\Desktop\\" + "SCOIRL.csv");
+		File csv = new File("PHIvsDAL.csv");
 		
 		// Deletes file if already exists
 		if(csv.exists()) {
@@ -75,28 +77,35 @@ public class TwitterClient {
 		// 533357263311097857L => half time 14/11/2014 #SCOIRL
 		// 533360966126542848L => start of 2nd half time 14/11/2014 #SCOIRL
 		// 533373399968796672L => full time 14/11/2014 #SCOIRL
+		Calendar fromDate = Calendar.getInstance();
+		Calendar toDate = Calendar.getInstance();
+		fromDate.set(2014, 10, 27, 21, 25);
+		toDate.set(2014, 10, 28, 01, 0);
+		query.setSince("2014-11-27");
+		query.setUntil("2014-11-28");
 		
-		query.setSinceId(id);
+		//query.setSinceId(id);
 		QueryResult result = twitter.search(query);
 		
 		outerloop:
 		while(result.hasNext()) {
 			// For each Tweet create a new line in file with content of tweet.
 		    for (Status status : result.getTweets()) {
-		        System.out.println(" @" + status.getUser().getScreenName() + ":" + status.getText() + ":" + status.getCreatedAt() + " " + status.getId());
-		        String screenName = status.getUser().getScreenName().replaceAll("\"", "\\\"");
-		        screenName = screenName.replaceAll("\n", ". ");
-		        screenName = screenName.replaceAll(",", " ");
-		        String tweetText = status.getText().replaceAll("\"", "\\\"");
-		        tweetText = tweetText.replaceAll("\n", ". ");
-		        tweetText = tweetText.replaceAll(",", " ");
-				bw.write(screenName + ",");
-				bw.write(tweetText + ",");
-				bw.write(status.getCreatedAt().toString() + ",");
-				bw.newLine();
-				 
+		    	if(toDate.after(status.getCreatedAt())) {
+			        System.out.println(" @" + status.getUser().getScreenName() + ":" + status.getText() + ":" + status.getCreatedAt() + " " + status.getId());
+			        String screenName = status.getUser().getScreenName().replaceAll("\"", "\\\"");
+			        screenName = screenName.replaceAll("\n", ". ");
+			        screenName = screenName.replaceAll(",", " ");
+			        String tweetText = status.getText().replaceAll("\"", "\\\"");
+			        tweetText = tweetText.replaceAll("\n", ". ");
+			        tweetText = tweetText.replaceAll(",", " ");
+					bw.write(screenName + ",");
+					bw.write(tweetText + ",");
+					bw.write(status.getCreatedAt().toString() + ",");
+					bw.newLine();
+		    	}
 				// Break out of loop if id of tweet is less than the range you want.
-			    if(status.getId() < id) {
+			    if(fromDate.after(status.getCreatedAt())) {
 			    	break outerloop;
 			    }
 			    

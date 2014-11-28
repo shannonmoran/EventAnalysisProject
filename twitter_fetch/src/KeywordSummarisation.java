@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,10 +18,16 @@ import java.util.TreeMap;
 public class KeywordSummarisation {
 	
 	private static BufferedWriter bw;
+	private static ArrayList<Moment> moments = new ArrayList<Moment>();
+	private static String teamname1, teamname2;
 	
 	public static void main(String[] args) throws IOException {
 		
 		TweetAggregation.main(args);
+		
+		// Set teamnames
+		teamname1 = args[2].toLowerCase();
+		teamname2 = args[3].toLowerCase();
 		
 		ArrayList<AggregatedTweets> at = TweetAggregation.getAggregatedTweetsObjects();
 		int averageCount = TweetAggregation.getAverageCount();
@@ -99,7 +106,7 @@ public class KeywordSummarisation {
 			}
 		}
 
-		System.out.println("Unsorted: "+termFrequency);
+		//System.out.println("Unsorted: "+termFrequency);
 		
 		// Organise the frequency map entries from highest to lowest
 		List<Map.Entry<String,Integer>> entries = new LinkedList<Map.Entry<String,Integer>>(termFrequency.entrySet());
@@ -112,7 +119,7 @@ public class KeywordSummarisation {
             }
         });
 		
-		System.out.println("  Sorted: "+entries);
+		//System.out.println("  Sorted: "+entries);
 
 		List<Map.Entry<String,Integer>> topEntries = new LinkedList<Map.Entry<String,Integer>>();
 		
@@ -123,7 +130,7 @@ public class KeywordSummarisation {
 		
 		System.out.println("Top 6 Entries: "+topEntries);
 		
-		// TODO: Write top 6 entries for this spike to new line in SpikeFrequencies.csv file
+		// Write top 6 entries for this spike to new line in SpikeFrequencies.csv file
 		// FORMAT: Date, Sentiment, Frequency Word #1, Word 1 Frequency,...,Frequency Word #6, Word 6 Frequency
 		bw.write(at.getDate()+",");
 		bw.write(at.getSentiment()+",");
@@ -135,7 +142,16 @@ public class KeywordSummarisation {
 		// Load key word file
 		ArrayList<String> keyWords = loadKeywordWordFile("soccer_key_phrases.txt");
 		
+		// Add team names to key phrases for this event
+		//keyWords.add(teamname1);
+		//keyWords.add(teamname2);
+		
+		System.out.println(keyWords);
+		
 		List<Map.Entry<String,Integer>> summaryWords = new LinkedList<Map.Entry<String,Integer>>();
+		
+		int teamName1Index = 8;
+		int teamName2Index = 8;
 		
 		// Loop to compare top 6 words with keywords.
 		for(int i=0; i<topEntries.size(); i++) {
@@ -144,9 +160,42 @@ public class KeywordSummarisation {
 			if(keyWords.contains(topEntries.get(i).getKey())) {
 				summaryWords.add(topEntries.get(i));
 			}
+			
+			// Check if teamname is in the topEntries list
+			if (topEntries.get(i).getKey().equals(teamname1)) {
+				teamName1Index = i;
+			} else if (topEntries.get(i).getKey().equals(teamname2)) {
+				teamName2Index = i;
+			}
+			
+		}
+		
+		String teamname;
+		
+		
+		if(teamName1Index == 8 && teamName2Index == 8) {
+			// If teamname didn't appear in topentries set to null
+			teamname = null;
+		} else if(teamName1Index < teamName2Index) {
+			// Determine which teamname occurs more frequently based on it's position in topEntries list
+			teamname = teamname1;
+		} else {
+			// Determine which teamname occurs more frequently based on it's position in topEntries list
+			teamname = teamname2;
 		}
 		
 		System.out.println("Possible Summary words: "+summaryWords+"\n");
+		
+		// If Summary word is present, add a moment object
+		if(summaryWords.size()>0) {
+			Moment moment = new Moment(summaryWords.get(0).getKey(), at.getDate(), at.getSentiment(), teamname);
+			moments.add(moment);
+		}
+	}
+	
+	
+	public static ArrayList<Moment> getMoments() {
+		return moments;
 	}
 	
 	private static ArrayList<String> loadKeywordWordFile(String filename) throws IOException {
@@ -168,23 +217,3 @@ public class KeywordSummarisation {
 		return keyWords;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

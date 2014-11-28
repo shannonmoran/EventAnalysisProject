@@ -5,3 +5,4 @@ kickoff
 goal
 red
 yellow
+final

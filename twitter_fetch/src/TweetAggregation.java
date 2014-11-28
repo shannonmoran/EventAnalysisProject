@@ -86,6 +86,36 @@ public class TweetAggregation {
 		averageCount = count/aggregatedTweetsObjects.size();
 		System.out.println("Average Count: " + count/aggregatedTweetsObjects.size());
 		
+		// Write Aggregated Tweets to csv file for graphing.
+		// Create a file to store formatted tweets
+		File csv = new File("AggregatedTweets.csv");
+					
+		// Deletes file if already exists
+		if(csv.exists()) {
+			csv.delete();
+		}
+		
+		csv.createNewFile();
+		
+		FileWriter fw = new FileWriter(csv);
+		BufferedWriter bw = new BufferedWriter(fw);	
+		
+		// Write the headers
+		bw.write("Date Time,");
+		bw.write("Count,");
+		bw.newLine();
+		
+		// Write values to file
+		for (int i = 0; i < aggregatedTweetsObjects.size(); i++) {
+			bw.write(aggregatedTweetsObjects.get(i).getDate() + ",");
+			bw.write(aggregatedTweetsObjects.get(i).getCount() + ",");
+			bw.newLine();
+		}
+		
+		// Close Resources
+		bw.flush();
+		bw.close();
+
 	}
 	
 	public static ArrayList<AggregatedTweets> getAggregatedTweetsObjects() {
