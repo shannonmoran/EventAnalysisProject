@@ -1,6 +1,0 @@
-goal
-full
-half
-kickoff
-red
-yellow

@@ -32,4 +32,3 @@ the
 www
 rt
 http
-scoirl

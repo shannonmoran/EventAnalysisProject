@@ -1,21 +1,13 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 public class KeywordSummarisation {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		
-		TweetAggregation.main(args);
+		String [] arguments = {"SCOIRL1.csv"};
+		TweetAggregation.main(arguments);
 		
 		ArrayList<AggregatedTweets> at = TweetAggregation.getAggregatedTweetsObjects();
 		int totalCount = TweetAggregation.getTotalCount();
@@ -40,8 +32,8 @@ public class KeywordSummarisation {
 	}
 	
 	// Analyse spike here
-	public static void analyseSpike(AggregatedTweets at) throws IOException {
-		System.out.println("SPIKE - @ " + at.getDate());
+	public static void analyseSpike(AggregatedTweets at) {
+		System.out.println("SPIKE - " + at.getCount() + " @ " + at.getDate());
 		
 		// Analyse each tweet, word by word
 		
@@ -56,78 +48,25 @@ public class KeywordSummarisation {
 			// Split tweet into words
 			String[] tweetWords = tweet.split(" ");
 			
+			for (int k=0; k<tweetWords.length; k++) 
+				System.out.println(tweetWords[k]);
+			
 			// For each word count frequency
 			for (int j=0; j<tweetWords.length; j++) {
+//				if (i>0)
+//					System.out.println("tweetWords[i-1]" +tweetWords[i-1]);
+				
 				// Count word frequency, adding new words to map
-				Integer occurrences = termFrequency.get(tweetWords[j]);
+				Integer occurrences = termFrequency.get(tweetWords[i]);
 		        if (occurrences == null) {
-		        	termFrequency.put(tweetWords[j], 1);
+		        	termFrequency.put(tweetWords[i], 1);
 		        } else {
-		        	termFrequency.put(tweetWords[j], occurrences.intValue() + 1);
+		        	termFrequency.put(tweetWords[i], occurrences.intValue() + 1);
 		        }
 			}
 		}
-
-		System.out.println("Unsorted: "+termFrequency);
 		
-		// Organise the freqency map entries from highest to lowest
-		List<Map.Entry<String,Integer>> entries = new LinkedList<Map.Entry<String,Integer>>(termFrequency.entrySet());
-	
-		Collections.sort(entries, new Comparator<Map.Entry<String,Integer>>() {
-			@Override
-            public int compare(Entry<String, Integer> value1, Entry<String, Integer> value2) {
-				// Compare the second value to the first to get list from highest to lowest
-                return value2.getValue().compareTo(value1.getValue());
-            }
-        });
-		
-		System.out.println("  Sorted: "+entries);
-
-		List<Map.Entry<String,Integer>> topEntries = new LinkedList<Map.Entry<String,Integer>>();
-		
-		// Get top 6 words to help summarise event.
-		for(int i = 1; i < 7; i++) {
-			topEntries.add(entries.get(i));
-		}
-		
-		System.out.println("Top 6 Entries: "+topEntries);
-		
-		// Load key word file
-		ArrayList<String> keyWords = loadKeywordWordFile("soccer_key_phrases.txt");
-		
-		List<Map.Entry<String,Integer>> summaryWords = new LinkedList<Map.Entry<String,Integer>>();
-		
-		// Loop to compare top 6 words with keywords.
-		for(int i = 0; i < topEntries.size(); i++) {
-
-			// Check if the top word in question is a keyword
-			if(keyWords.contains(topEntries.get(i).getKey())) {
-				summaryWords.add(topEntries.get(i));
-			}
-		}
-		
-		System.out.println("Possible Summary words: "+summaryWords+"\n");
-	}
-	
-	private static ArrayList<String> loadKeywordWordFile(String filename) throws IOException {
-		// Load Stop word removal file
-		BufferedReader br1 = new BufferedReader(new FileReader(filename));
-		
-		String line = "";
-		// Read header line
-		line = br1.readLine();
-		
-		// In memory representation of stop word file
-		ArrayList<String> keyWords = new ArrayList<String>();
-		
-		while ((line = br1.readLine()) != null) {
-	        // Add line as the word is the only item in the line
-			keyWords.add(line.toLowerCase());
-		}
-		// Close reader
-		br1.close();
-		
-		return keyWords;
+		System.out.println("\n"+termFrequency);
 	}
 }
 

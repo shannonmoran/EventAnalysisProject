@@ -55,31 +55,9 @@ public class TweetPreprocessing {
 				if(tweetString.length == 3) {
 					
 					// Get raw tweet text String
-					String tweet = tweetString[1].toLowerCase();
-					
-					// Remove all links and usernames
-					String tweetNoLinks = "";
-					String[] tweetWord1 = tweet.split(" ");
-					if (tweet.contains("http") || tweet.contains("@")) {
-
-						for (int i =0; i<tweetWord1.length; i++) {
-							if (tweetWord1[i].startsWith("http")) {
-								tweetWord1[i] = null; 
-							} else if (tweetWord1[i].startsWith("@")) {
-								tweetWord1[i] = null;
-							}
-						}
-						
-						
-					}
-					
-					for (int k=0; k<tweetWord1.length; k++) {
-						if (tweetWord1[k]!=null)
-							tweetNoLinks += (tweetWord1[k] + " ");
-					}
-					
 					// Split String into words, removing non-alphanumeric characters
-					String[] tweetWord = tweetNoLinks.split("[^a-zA-Z0-9']");
+					String tweet = tweetString[1].toLowerCase();
+					String[] tweetWord = tweet.split("[^a-zA-Z0-9']");
 					
 					// For each word in the tweet, check if it is a stop word
 					// If so it is removed
