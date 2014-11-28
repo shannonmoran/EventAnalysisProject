@@ -1,6 +1,7 @@
-goal
 full
 half
+time
 kickoff
+goal
 red
 yellow

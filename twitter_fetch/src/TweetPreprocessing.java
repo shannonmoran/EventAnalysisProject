@@ -124,8 +124,6 @@ public class TweetPreprocessing {
 		BufferedReader br1 = new BufferedReader(new FileReader(args[1]));
 		
 		String line = "";
-		// Read header line
-		line = br1.readLine();
 		
 		// In memory representation of stop word file
 		ArrayList<String> stopWords = new ArrayList<String>();

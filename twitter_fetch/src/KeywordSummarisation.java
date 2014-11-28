@@ -138,7 +138,7 @@ public class KeywordSummarisation {
 		List<Map.Entry<String,Integer>> summaryWords = new LinkedList<Map.Entry<String,Integer>>();
 		
 		// Loop to compare top 6 words with keywords.
-		for(int i = 0; i < topEntries.size(); i++) {
+		for(int i=0; i<topEntries.size(); i++) {
 
 			// Check if the top word in question is a keyword
 			if(keyWords.contains(topEntries.get(i).getKey())) {
@@ -154,8 +154,6 @@ public class KeywordSummarisation {
 		BufferedReader br1 = new BufferedReader(new FileReader(filename));
 		
 		String line = "";
-		// Read header line
-		line = br1.readLine();
 		
 		// In memory representation of stop word file
 		ArrayList<String> keyWords = new ArrayList<String>();
