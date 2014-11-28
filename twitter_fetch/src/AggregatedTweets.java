@@ -5,6 +5,7 @@ public class AggregatedTweets {
 	private Date date;
 	private int count;
 	private ArrayList<Tweet> tweets;
+	private int sentiment;
 	
 	// Constructors
 	public AggregatedTweets(Date d, int c, ArrayList t) {
@@ -40,5 +41,13 @@ public class AggregatedTweets {
 	
 	public ArrayList getTweets() {
 		return tweets;
+	}
+
+	public int getSentiment() {
+		return sentiment;
+	}
+
+	public void setSentiment(int sentiment) {
+		this.sentiment = sentiment;
 	}
 }

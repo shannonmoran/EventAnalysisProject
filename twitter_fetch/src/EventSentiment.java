@@ -6,35 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventSentiment {
+
+	private int sentiment;
 	
-	public static void main(String[] args) throws IOException {
-		
-		TweetAggregation.main(args);
-		
-		ArrayList<AggregatedTweets> at = TweetAggregation.getAggregatedTweetsObjects();
-		int totalCount = TweetAggregation.getTotalCount();
-		int averageCount = TweetAggregation.getAverageCount();
-		
-		// Use average count to create threshold to check for spikes
-		double threshold = averageCount*1.5;
-		System.out.println("\nSpike threshold: " +threshold);
-		
-		// Loop through the aggregated Tweet objects and determine if they are above the stated threshold: 150 at the moment
-		int spikeCount = 0;
-		for(int i = 0; i < at.size(); i++) {
-			
-			if (at.get(i).getCount() > threshold) {
-				// Pass spikes into method for analysis
-				analyseSpikeSentiment(at.get(i));
-				spikeCount++;
-			}
-		}
-		
-		System.out.println("Total Spikes: " + spikeCount);
+		public EventSentiment(AggregatedTweets at) throws IOException {
+			AggregatedTweets atObject = at;
+
+			analyseSentiment(at);
 	}
 	
 	// Analyse spike here
-	public static void analyseSpikeSentiment(AggregatedTweets at) throws IOException {
+	public void analyseSentiment(AggregatedTweets at) throws IOException {
 		System.out.println("SPIKE - " + at.getCount() + " @ " + at.getDate());
 		
 		// Analyse each tweet, word by word
@@ -64,12 +46,13 @@ public class EventSentiment {
 					tweetSentiment++;
 				}
 			}
-			System.out.println("Overall sentiment of Tweet: "+ tweetSentiment);
+			//System.out.println("Overall sentiment of Tweet: "+ tweetSentiment);
 			overallMinuteSentiment += tweetSentiment;
 			
 		}
 		
 		System.out.println("Overall sentiment of Minute: " + overallMinuteSentiment);
+		sentiment = overallMinuteSentiment;
 	}
 	
 	private static ArrayList<String> loadSentimentWordFile(String filename) throws IOException {
@@ -91,5 +74,13 @@ public class EventSentiment {
 		br1.close();
 		
 		return Words;
+	}
+
+	public int getSentiment() {
+		return sentiment;
+	}
+
+	public void setSentiment(int sentiment) {
+		this.sentiment = sentiment;
 	}
 }

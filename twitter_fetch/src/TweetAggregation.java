@@ -9,7 +9,7 @@ public class TweetAggregation {
 	public static int totalCount;
 	public static int averageCount;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		ArrayList<Tweet> tweetObjects = new ArrayList<Tweet>();
 		String line = "";
@@ -64,6 +64,8 @@ public class TweetAggregation {
 				at.setDate(lastTime);
 				at.setTweets(tweetArray);
 				at.setCount(at.getCount()+1);
+				EventSentiment es = new EventSentiment(at);
+				at.setSentiment(es.getSentiment());
 				aggregatedTweetsObjects.add(at);
 				lastTime = roundedTime;
 				at = new AggregatedTweets();

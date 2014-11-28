@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class EventResult {
+public class Moment {
 	private String type;
 	private Date date;
 	private String sentiment;
 	
 	// Constructors
-	public EventResult(String t, Date d, String s) {
+	public Moment(String t, Date d, String s) {
 		type = t;
 		date = d;
 		sentiment = s;
