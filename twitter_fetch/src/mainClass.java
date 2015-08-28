@@ -37,10 +37,12 @@ public class mainClass {
 	/** * @param args */ 
 	public static void main(String[] args) {
 		// Authentication keys and tokens for the app registered as 'EventAnalysisProject'
-		String CONSUMER_KEY = "plUYMZRSLtgm8W7z3oB17w0nD";
-		String CONSUMER_KEY_SECRET = "7dTP2JdZTcuHJ9voJro6UiwglNplfxtQi4XjSHCsGYI7i5hoxY";
-		String ACCESS_TOKEN = "335811028-fQXqxVEQgHgSnro2X1etVTO0nrzCBB3Gsk2ZgZBZ";
-		String ACCESS_TOKEN_SECRET = "KEJxLbyiGWuR1TqjiU1ge5rG1IoNvhibPYrvD9Wc164lw";
+		
+		// Fill in the following fields
+		String CONSUMER_KEY = "________________________";
+		String CONSUMER_KEY_SECRET = "_______________________";
+		String ACCESS_TOKEN = "___________________";
+		String ACCESS_TOKEN_SECRET = "__________________";
 		
 		// Initialise TwitterClient with keys and tokens
 		tw = new TwitterClient(CONSUMER_KEY, CONSUMER_KEY_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
